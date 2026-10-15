@@ -1,1 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64"><rect width="64" height="64" rx="17" fill="#dfeaff"/><g stroke="#3d70d0" fill="none" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><rect x="17" y="14" width="29" height="37" rx="4"/><path d="M23 14v37M30 25h9M30 33h9M30 41h6M14 22h6M14 32h6M14 42h6"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-labelledby="notes-title">
+<title id="notes-title">Notes</title>
+<defs>
+<linearGradient id="notes-navy" x1="31" y1="18" x2="224" y2="239" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#4B4DD8"/><stop offset="0.48" stop-color="#302B99"/><stop offset="1" stop-color="#1C165E"/></linearGradient>
+<linearGradient id="notes-fold" x1="164" y1="16" x2="226" y2="78" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#98B0FF"/><stop offset="0.55" stop-color="#647EFF"/><stop offset="1" stop-color="#465CF3"/></linearGradient>
+<linearGradient id="notes-silver" x1="0" y1="100" x2="0" y2="121" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#FFFFFF"/><stop offset="0.47" stop-color="#E8EDF5"/><stop offset="1" stop-color="#AAB5C9"/></linearGradient>
+<linearGradient id="notes-mint" x1="59" y1="140" x2="190" y2="162" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#8AEFD9"/><stop offset="0.42" stop-color="#49D4BA"/><stop offset="1" stop-color="#00A58F"/></linearGradient>
+<linearGradient id="notes-short-line" x1="59" y1="183" x2="151" y2="202" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#D4DCEA"/><stop offset="1" stop-color="#9BA7C0"/></linearGradient>
+</defs>
+<path d="M64 16H164L226 78V206C226 225 211 240 192 240H64C45 240 30 225 30 206V50C30 31 45 16 64 16Z" fill="url(#notes-navy)"/>
+<path d="M164 16 226 78H184C173 78 164 69 164 58Z" fill="url(#notes-fold)"/>
+<rect x="58" y="102" width="132" height="18" rx="9" fill="url(#notes-silver)"/>
+<rect x="58" y="143" width="132" height="18" rx="9" fill="url(#notes-mint)"/>
+<rect x="58" y="184" width="96" height="18" rx="9" fill="url(#notes-short-line)"/>
+<path d="M64 17H163" fill="none" stroke="#9AA9FF" stroke-opacity="0.26" stroke-width="1"/>
+</svg>

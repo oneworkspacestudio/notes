@@ -4,7 +4,7 @@ Page Notes
       Row region=brand
         Button intent=menu variant=icon title="Toggle navigation"
           Icon name=Menu
-        Icon name=NotebookPen tone=brand
+        Image src="./notes.svg" alt="Notes" width=32 height=32
         Heading level=1 "notes"
       Input field=search variant=search placeholder="Search your notes" value=$app.search
       Row region=account
@@ -43,7 +43,7 @@ Page Notes
         Spacer
         Row region=sidebar-footer
           Icon name=Layers3
-          Text "One Workspace"
+          Link href="/" "One Workspace"
         Button intent=settings variant=nav
           Icon name=Settings2
           Text "Settings"
@@ -183,7 +183,7 @@ Page Notes
             Text "Markdown, powered by Joplin"
         Else
           Stack region=welcome
-            Icon name=NotebookPen tone=brand
+            Image src="./notes.svg" alt="Notes" width=32 height=32
             Text tone=eyebrow "A CLEAR SPACE FOR YOUR IDEAS"
             Heading level=2 "Make room for a good thought."
             Text "Notes, plans, and the things you don’t want to forget."
@@ -198,7 +198,7 @@ Page Notes
               Input type=dialog field=dialog
   Else
     Stack region=signin
-      Icon name=NotebookPen tone=brand
+      Image src="./notes.svg" alt="Notes" width=32 height=32
       Text tone=eyebrow "ONE WORKSPACE"
       Heading level=1 "A home for your thoughts."
       Text "Your notes, connected to your account."

@@ -1,4 +1,4 @@
-# notes
+# <img src="web/public/notes.svg" alt="" width="42" height="42"> Notes
 
 Your notes, notebooks and ideas, together in One Workspace. A portable Windows
 application with a calm three-column interface, SQLite storage and MyAccounts

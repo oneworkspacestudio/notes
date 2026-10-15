@@ -1,6 +1,6 @@
 // @ts-nocheck -- @codedia/parser emits dynamic data contracts and untyped loop parameters.
 // Generated from Notes.aui. Edit the source, then npm run generate.
-import { Alert, Badge, Button, Checkbox, Divider, Heading, Icon, Input, Link, Page, Row, Section, Select, Spacer, Stack, Text } from "@/components/ui"
+import { Alert, Badge, Button, Checkbox, Divider, Heading, Icon, Image, Input, Link, Page, Row, Section, Select, Spacer, Stack, Text } from "@/components/ui"
 
 export function Notes({ data, onAction }: { data: any; onAction: (name: string) => void }) {
   return (
@@ -10,7 +10,7 @@ export function Notes({ data, onAction }: { data: any; onAction: (name: string) 
           <Row region="topbar">
             <Row region="brand">
               <Button intent="menu" variant="icon" title="Toggle navigation"><Icon name="Menu" /></Button>
-              <Icon name="NotebookPen" tone="brand" />
+              <Image src="./notes.svg" alt="Notes" width={32} height={32} />
               <Heading level={1}>notes</Heading>
             </Row>
             <Input field="search" variant="search" placeholder="Search your notes" value={data.app.search} />
@@ -57,7 +57,7 @@ export function Notes({ data, onAction }: { data: any; onAction: (name: string) 
               <Spacer />
               <Row region="sidebar-footer">
                 <Icon name="Layers3" />
-                <Text>One Workspace</Text>
+                <Link href="/">One Workspace</Link>
               </Row>
               <Button intent="settings" variant="nav">
                 <Icon name="Settings2" />
@@ -209,7 +209,7 @@ export function Notes({ data, onAction }: { data: any; onAction: (name: string) 
                 </>
               ) : (
                 <Stack region="welcome">
-                  <Icon name="NotebookPen" tone="brand" />
+                  <Image src="./notes.svg" alt="Notes" width={32} height={32} />
                   <Text tone="eyebrow">A CLEAR SPACE FOR YOUR IDEAS</Text>
                   <Heading level={2}>Make room for a good thought.</Heading>
                   <Text>Notes, plans, and the things you don’t want to forget.</Text>
@@ -232,7 +232,7 @@ export function Notes({ data, onAction }: { data: any; onAction: (name: string) 
         </>
       ) : (
         <Stack region="signin">
-          <Icon name="NotebookPen" tone="brand" />
+          <Image src="./notes.svg" alt="Notes" width={32} height={32} />
           <Text tone="eyebrow">ONE WORKSPACE</Text>
           <Heading level={1}>A home for your thoughts.</Heading>
           <Text>Your notes, connected to your account.</Text>

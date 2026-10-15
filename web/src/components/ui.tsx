@@ -295,3 +295,5 @@ function TitleInput(props: Props) {
   const { type, ...rest } = props;
   return h("textarea", { ...rest, ref, rows: 1 });
 }
+
+export function Image(p: Props) { return h("img", {src: p.src, alt: p.alt || "", width: p.width, height: p.height, className: cls(p, "app-logo")}); }
