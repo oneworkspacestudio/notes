@@ -1,0 +1,10 @@
+/dist/
+/data/
+/config.json
+/notes.exe
+/MyNotes.exe
+/web/node_modules/
+/web/dist/
+/test-results/
+*.log
+*.tsbuildinfo

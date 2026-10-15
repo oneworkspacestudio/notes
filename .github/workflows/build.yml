@@ -1,0 +1,47 @@
+name: Build and test notes
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '26'
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - run: npm --prefix web ci
+      - run: npm --prefix web run build
+      - run: npm --prefix web audit --audit-level=high
+      - run: go test -timeout 120s ./...
+      - run: go vet ./...
+      - run: go run golang.org/x/vuln/cmd/govulncheck@v1.9.0 ./...
+      - run: go build -trimpath -ldflags "-s -w" -o dist/MyNotes.exe ./cmd/notes
+        env:
+          CGO_ENABLED: '0'
+      - run: npm --prefix web run test:e2e
+        env:
+          NOTES_TEST_ROOT: '${{ runner.temp }}/notes-browser'
+          NOTES_CHROME: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+      - run: npm --prefix web run test:portable
+        env:
+          NOTES_TEST_ROOT: '${{ runner.temp }}/notes-portable'
+          NOTES_CHROME: 'C:/Program Files/Google/Chrome/Application/chrome.exe'
+      - shell: pwsh
+        run: node scripts/licenses.mjs
+      - shell: pwsh
+        run: ./scripts/package.ps1
+      - uses: actions/upload-artifact@v4
+        with:
+          name: notes-windows-amd64
+          path: dist/*

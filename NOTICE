@@ -1,0 +1,22 @@
+notes — One Workspace
+Copyright (c) 2026 One Workspace contributors.
+Application license: GNU Affero General Public License, version 3 or later.
+
+This application includes @joplin/renderer 3.7.1, @joplin/utils and associated
+Joplin components. Copyright (c) 2016–2025 Laurent Cozic and Joplin contributors.
+Their AGPL-3.0-or-later notices and component-specific licenses remain applicable.
+Renderer source: https://github.com/laurent22/joplin/tree/dev/packages/renderer
+Exact published source artifact and integrity are pinned in web/package-lock.json.
+The upstream package includes its original source files and LICENSE.
+
+Joplin is a trademark of JOPLIN SAS. This is an independent application; no
+Joplin logo or icon is used. Our notes icon and interface are original.
+
+Other components include Go, modernc SQLite, coreos/go-oidc, oauth2, kardianos
+service, gofrs/flock, Goldmark, Bluemonday, React, Tiptap, DOMPurify, Lucide,
+Tailwind CSS, html-to-markdown and @codedia/parser. Their original licenses apply to their code.
+Pinned dependency inventories: go.mod, go.sum and web/package-lock.json.
+Corresponding application source: https://github.com/oneworkspacestudio/notes
+Source and exact build inputs are available for every published release tag.
+Portable binary packages include THIRD-PARTY-LICENSES.txt, generated from the
+installed dependency source notices during the build.

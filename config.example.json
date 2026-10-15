@@ -1,0 +1,12 @@
+{
+  "listen": "127.0.0.1:8795",
+  "public_url": "http://127.0.0.1:8795",
+  "data_dir": "data",
+  "mode": "managed",
+  "oidc_issuer": "",
+  "oidc_client_id": "",
+  "admin_subjects": [],
+  "session_hours": 8,
+  "upload_mb": 25,
+  "quota_mb": 1024
+}

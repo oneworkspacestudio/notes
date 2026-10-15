@@ -1,0 +1,210 @@
+Page Notes
+  If condition=$app.user
+    Row region=topbar
+      Row region=brand
+        Button intent=menu variant=icon title="Toggle navigation"
+          Icon name=Menu
+        Icon name=NotebookPen tone=brand
+        Heading level=1 "notes"
+      Input field=search variant=search placeholder="Search your notes" value=$app.search
+      Row region=account
+        Badge tone=$app.saveTone $app.saveStatus
+        Button intent=theme variant=icon title="Toggle dark theme"
+          Icon name=SunMoon
+        Button intent=settings variant=avatar title="Settings and account" $app.initials
+    Row region=$app.shellRegion
+      Section region=sidebar
+        Button intent=compose variant=compose
+          Icon name=Plus
+          Text "Compose note"
+        For each=$app.navigation
+          Button intent=navigate payload=$item.key variant=$item.variant
+            Icon name=$item.icon
+            Text $item.label
+            Badge $item.count
+        Row region=section-label
+          Text "NOTEBOOKS"
+          Button intent=new-notebook variant=icon title="New notebook"
+            Icon name=Plus
+        Input field=book-search variant=small-search placeholder="Find a notebook" value=$app.bookSearch
+        For each=$app.books
+          Row region=notebook-row
+            Button intent=notebook payload=$item.id variant=$item.variant
+              Icon name=FolderClosed
+              Text $item.displayName
+            Button intent=edit-notebook payload=$item.id variant=icon title="Edit notebook"
+              Icon name=Ellipsis
+        Row region=section-label
+          Text "TAGS"
+        For each=$app.tags
+          Button intent=tag payload=$item.name variant=$item.variant
+            Icon name=Hash tone=$item.color
+            Text $item.name
+        Spacer
+        Row region=sidebar-footer
+          Icon name=Layers3
+          Text "One Workspace"
+        Button intent=settings variant=nav
+          Icon name=Settings2
+          Text "Settings"
+      Section region=note-list
+        Row region=list-heading
+          Stack
+            Text tone=eyebrow "YOUR WORKSPACE"
+            Heading level=2 $app.viewTitle
+          Badge tone=counter $app.noteCount
+        Row region=list-controls
+          Checkbox field=select-all checked=$app.allSelected label="Select all visible notes"
+          Select field=sort value=$app.sort options=$app.sortOptions label="Sort notes"
+          Button intent=refresh variant=icon title="Refresh notes"
+            Icon name=RefreshCw
+        If condition=$app.hasSelected
+          Row region=bulk-bar
+            Text $app.selectedLabel
+            Button intent=bulk-star variant=icon title="Star selected notes"
+              Icon name=Star
+            Button intent=bulk-archive variant=icon title="Archive selected notes"
+              Icon name=Archive
+            Button intent=bulk-trash variant=icon title="Trash selected notes"
+              Icon name=Trash2
+        Section region=note-cards
+          For each=$app.notes
+            Row region=$item.cardRegion
+              Checkbox field=select-note payload=$item.id checked=$item.selected label=$item.selectLabel
+              Button intent=open-note payload=$item.id variant=note
+                Row region=note-card-heading
+                  Heading level=3 $item.displayTitle
+                  Text tone=date $item.date
+                Text tone=preview $item.preview
+                Row region=note-card-footer
+                  For each=$item.badges
+                    Badge tone=$item.color $item.label
+              Button intent=quick-star payload=$item.id variant=$item.starVariant title="Toggle star"
+                Icon name=Star
+          If condition=$app.empty
+            Stack region=empty-list
+              Icon name=FileSearch
+              Heading level=3 "A little room to think"
+              Text "Create a note, or try another search."
+              Button intent=compose variant=primary "Create a note"
+          If condition=$app.hasMore
+            Button intent=load-more variant=secondary "Load more notes"
+        Row region=list-footer
+          Icon name=ShieldCheck
+          Text "Private by default. Yours to organise."
+      Section region=editor
+        If condition=$app.note
+          Row region=editor-actions
+            Row
+              Button intent=back variant=mobile-back title="Back to notes"
+                Icon name=ArrowLeft
+              Icon name=FileText tone=muted
+              Text $app.notebookLabel
+            Row
+              Button intent=pin variant=$app.pinVariant title="Pin note"
+                Icon name=Pin
+              Button intent=star variant=$app.starVariant title="Star note"
+                Icon name=Star
+              Button intent=share variant=icon title="Share notebook"
+                Icon name=Users
+              Button intent=archive variant=icon title="Archive or restore note"
+                Icon name=Archive
+              Button intent=trash variant=icon title="Move to trash or restore"
+                Icon name=Trash2
+              Button intent=fullscreen variant=icon title="Toggle full screen editor"
+                Icon name=Maximize2
+              Button intent=details variant=icon title="Note details and history"
+                Icon name=Ellipsis
+          If condition=$app.error
+            Alert tone=error $app.error
+          If condition=$app.conflict
+            Row region=recovery
+              Text "Your draft is safe. Resolve the conflict before saving."
+              Button intent=conflict-copy variant=secondary "Save draft as a copy"
+              Button intent=reload-note variant=secondary "Use server version"
+          If condition=$app.recovery
+            Row region=recovery
+              Text "A local draft is available for this note."
+              Button intent=recover variant=secondary "Recover draft"
+              Button intent=discard-draft variant=secondary "Discard draft"
+          If condition=$app.note.deleted
+            Row region=recovery
+              Text "This note is in Trash."
+              Button intent=trash variant=secondary "Restore note"
+              Button intent=purge variant=danger "Delete forever"
+          Row region=editor-tabs
+            Button intent=mode-rich variant=$app.richVariant "Rich text"
+            Button intent=mode-markdown variant=$app.markdownVariant "Markdown"
+            Button intent=mode-split variant=$app.splitVariant "Split view"
+            Button intent=mode-preview variant=$app.previewVariant "Preview"
+            Spacer
+            Badge tone=muted $app.permissionLabel
+          Row region=format-toolbar
+            Button intent=fmt-heading variant=tool title="Heading"
+              Icon name=Heading2
+            Button intent=fmt-bold variant=tool title="Bold"
+              Icon name=Bold
+            Button intent=fmt-italic variant=tool title="Italic"
+              Icon name=Italic
+            Button intent=fmt-strike variant=tool title="Strikethrough"
+              Icon name=Strikethrough
+            Divider
+            Button intent=fmt-list variant=tool title="Bullet list"
+              Icon name=List
+            Button intent=fmt-task variant=tool title="Checklist"
+              Icon name=ListTodo
+            Button intent=fmt-quote variant=tool title="Quote"
+              Icon name=Quote
+            Button intent=fmt-code variant=tool title="Code block"
+              Icon name=Code2
+            Button intent=fmt-table variant=tool title="Table"
+              Icon name=Table2
+            Button intent=fmt-link variant=tool title="Insert link"
+              Icon name=Link
+            Button intent=attach variant=tool title="Attach file or image"
+              Icon name=Paperclip
+            Spacer
+            Button intent=fmt-undo variant=tool title="Undo"
+              Icon name=Undo2
+            Button intent=fmt-redo variant=tool title="Redo"
+              Icon name=Redo2
+          Section region=editor-document
+            Input field=title variant=title placeholder="Untitled note" value=$app.note.title
+            Row region=document-meta
+              Icon name=Clock3
+              Text $app.modifiedLabel
+              Text "·"
+              Text $app.wordCount
+            Input field=body type=editor value=$app.note.body
+          Row region=editor-status
+            Row
+              Icon name=CheckCheck
+              Text $app.saveStatus
+            Text "Markdown, powered by Joplin"
+        Else
+          Stack region=welcome
+            Icon name=NotebookPen tone=brand
+            Text tone=eyebrow "A CLEAR SPACE FOR YOUR IDEAS"
+            Heading level=2 "Make room for a good thought."
+            Text "Notes, plans, and the things you don’t want to forget."
+            Button intent=compose variant=primary "Write your first note"
+        If condition=$app.dialog
+          Section region=dialog-backdrop
+            Section region=dialog
+              Row region=dialog-heading
+                Heading level=2 $app.dialog.title
+                Button intent=close-dialog variant=icon title="Close dialog"
+                  Icon name=X
+              Input type=dialog field=dialog
+  Else
+    Stack region=signin
+      Icon name=NotebookPen tone=brand
+      Text tone=eyebrow "ONE WORKSPACE"
+      Heading level=1 "A home for your thoughts."
+      Text "Your notes, connected to your account."
+      Link href=$app.loginURL variant=primary "Sign in with MyAccounts"
+      Text tone=muted "Running locally? Use the one-time sign-in link printed by MyNotes.exe."
+      If condition=$app.error
+        Alert tone=error $app.error
+  If condition=$app.toast
+    Alert region=toast tone=info $app.toast

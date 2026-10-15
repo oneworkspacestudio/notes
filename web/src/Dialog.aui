@@ -1,0 +1,118 @@
+Page Dialog
+  If condition=$app.dialog.isSettings
+    Stack region=dialog-content
+      Text $app.user.name
+      Text tone=muted $app.user.email
+      Text "Your notes are private unless you share a notebook."
+      Row
+        Button intent=theme variant=secondary "Switch theme"
+        Button intent=logout variant=secondary "Sign out"
+      Divider
+      Heading level=3 "Import & export"
+      Text "Export your notes, tags, notebook hierarchy and attachments. Importing creates new copies."
+      Row
+        Button intent=import variant=secondary "Import notes"
+        Link href=$app.exportJSON variant=secondary "JSON backup"
+        Link href=$app.exportMD variant=secondary "Markdown ZIP"
+        Link href=$app.exportHTML variant=secondary "HTML ZIP"
+      Heading level=3 "Templates"
+      Text "Mark any note as a template in its details, then duplicate it whenever you need it."
+      Button intent=show-templates variant=secondary "Browse templates"
+      If condition=$app.user.admin
+        Divider
+        Heading level=3 "Administration"
+        Button intent=admin variant=secondary "Manage users & system"
+      Divider
+      Text tone=muted $app.versionLabel
+      Link href="https://github.com/oneworkspacestudio/notes/releases" "Check available releases"
+      Text tone=muted "Joplin Markdown renderer included. Official Joplin sync and E2EE are not available in this preview."
+  If condition=$app.dialog.isNotebook
+    Stack region=dialog-content
+      Field label="Name"
+        Input field=dialog-name value=$app.dialog.name placeholder="Notebook name"
+      Field label="Parent notebook"
+        Select field=dialog-parent value=$app.dialog.parent options=$app.parentOptions
+      Text tone=muted "Sharing applies to notes in this notebook; child notebooks have their own permissions."
+      Row
+        Button intent=save-notebook variant=primary "Save notebook"
+        If condition=$app.dialog.editing
+          Button intent=delete-notebook variant=danger "Delete empty notebook"
+  If condition=$app.dialog.isDetails
+    Stack region=dialog-content
+      Field label="Notebook"
+        Select field=note-notebook value=$app.note.notebook_id options=$app.detailNotebookOptions
+      Field label="Tags, separated by commas"
+        Input field=note-tags value=$app.tagText placeholder="work, ideas, personal"
+      Field label="Reminder"
+        Input field=note-reminder type=datetime-local value=$app.reminderValue
+      If condition=$app.hasReminder
+        Link href=$app.calendarURL variant=secondary "Add reminder to Calendar (.ics)"
+      Checkbox field=note-template checked=$app.note.template label="Use as a note template"
+      Heading level=3 "Attachments"
+      For each=$app.dialog.attachments
+        Row
+          Link href=$item.url $item.name
+          Text tone=muted $item.sizeLabel
+          Button intent=delete-attachment payload=$item.id variant=danger "Remove"
+      Row
+        Button intent=duplicate variant=secondary "Duplicate note"
+        Button intent=copy-link variant=secondary "Copy internal link"
+        Button intent=history variant=secondary "Version history"
+      Text tone=muted "The last 50 content revisions are retained. Restoring creates another revision."
+      For each=$app.dialog.versions
+        Row region=history-row
+          Text $item.label
+          Button intent=restore-version payload=$item.revision variant=secondary "Restore"
+  If condition=$app.dialog.isShare
+    Stack region=dialog-content
+      Text "Invite someone to this notebook with a single-use link. They must sign in to accept it. Links expire after 24 hours."
+      Text tone=muted "Only notes directly in this notebook are shared. Private notes outside it remain private."
+      Select field=dialog-book value=$app.dialog.book options=$app.ownNotebookOptions
+      Select field=dialog-role value=$app.dialog.role options=$app.roleOptions
+      Button intent=create-invite variant=primary "Create invitation"
+      If condition=$app.dialog.invite
+        Input field=invite value=$app.dialog.invite readOnly=true
+        Button intent=copy-invite variant=secondary "Copy invitation"
+      For each=$app.dialog.members
+        Row
+          Text $item.name
+          Badge $item.role
+          Button intent=revoke-share payload=$item.id variant=danger "Revoke"
+  If condition=$app.dialog.isLink
+    Stack region=dialog-content
+      Field label="Link address"
+        Input field=dialog-href value=$app.dialog.href placeholder="https://example.com or :/note-id"
+      Button intent=insert-link variant=primary "Insert link"
+  If condition=$app.dialog.isAdmin
+    Stack region=dialog-content
+      Text "Administrator access manages accounts and limits. It does not grant access to private notes."
+      Text $app.dialog.system
+      Field label="Listen address and port"
+        Input field=config-listen value=$app.dialog.config.listen
+      Field label="Public URL"
+        Input field=config-public_url value=$app.dialog.config.public_url
+      Field label="Storage directory"
+        Input field=config-data_dir value=$app.dialog.config.data_dir
+      Field label="MyAccounts issuer"
+        Input field=config-oidc_issuer value=$app.dialog.config.oidc_issuer
+      Field label="OIDC client ID"
+        Input field=config-oidc_client_id value=$app.dialog.config.oidc_client_id
+      Field label="Session lifetime in hours (1–24)"
+        Input field=config-session_hours type=number value=$app.dialog.config.session_hours
+      Field label="Maximum upload in MB (1–100)"
+        Input field=config-upload_mb type=number value=$app.dialog.config.upload_mb
+      Button intent=save-config variant=secondary "Save configuration for restart"
+      Text tone=muted "Changes require a restart. Moving storage requires an offline backup and restore first. Environment variables supplied by One Workspace take precedence. Set client secrets in the server environment; they are never displayed here."
+      Text "For a complete system backup or restore, stop the service and use the backup/restore commands. Personal exports are available in Settings."
+      For each=$app.dialog.users
+        Row region=user-row
+          Stack
+            Text $item.name
+            Text tone=muted $item.email
+          Input type=number field=user-quota payload=$item.id value=$item.quota_mb label="Quota in MB"
+          Checkbox field=user-disabled payload=$item.id checked=$item.disabled label="Disabled"
+          Button intent=save-user payload=$item.id variant=secondary "Save"
+      Heading level=3 "Audit log"
+      For each=$app.dialog.audit
+        Text tone=muted $item.label
+      Link href=$app.healthURL variant=secondary "Health status"
