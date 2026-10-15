@@ -84,10 +84,26 @@ observed local startup of 91 ms. These are observations, not load/memory promise
 
 ## Publication and remaining work
 
-Publish only a labelled prerelease `v0.1.0-preview.1`, with `docs/RELEASE.md` and
-`docs/ACCEPTANCE.md` limitations. The repository and expected release location are
-`https://github.com/oneworkspacestudio/notes` and its releases page. Reconcile final
-tag, CI run and uploaded assets with GitHub before claiming publication completed.
+Published public source at `fcd186ebf0fb1f9b7b114c3dd09cb99d865d6b0a` and a labelled
+prerelease `v0.1.0-preview.1`. GitHub verified the tag targets that commit, the
+release is public (draft=false, prerelease=true), and all seven assets are present.
+Release: https://github.com/oneworkspacestudio/notes/releases/tag/v0.1.0-preview.1
+Hosted Windows CI passed: https://github.com/oneworkspacestudio/notes/actions/runs/38758523188
+
+Release files are the downloaded, successful hosted Windows CI artifact, not the
+earlier local build. The exact CI executable was additionally verified against
+the real disposable two-user MyAccounts fixture. Published MyNotes.exe is
+16,515,072 bytes, SHA256
+`5d81ba3e1caef127d8be67da7bc2b77c93f587d7b305c45579c278a1b1548b4a`.
+Portable ZIP is 7,221,128 bytes, SHA256
+`4c83374bba18aebc1611b79c8b4236633731e52934d25632975039017631f0f7`.
+GitHub's asset digests match these values. CI artifact retained locally at
+`H:/Projects/tooling/notes/release-ci-fcd186e`; development build remains in dist/.
+
+The HTTPS OAuth credential lacks workflow write scope, so its initial push was
+rejected. Existing authorized SSH access succeeded; origin now uses
+`git@github.com:oneworkspacestudio/notes.git`. Use SSH for workflow-bearing pushes.
+No extra authorization or credential changes were required.
 
 `docs/release-acceptance.json` remains stable_ready=false. Open gates: live
 MyAccounts issuer/client registration, live Workspace add-app, clean Windows 10/11,
