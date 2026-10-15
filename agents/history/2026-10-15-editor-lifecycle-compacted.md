@@ -63,3 +63,11 @@ No active user process/store changed. Task-created test processes ended and the
 checked disposable NTFS test root was removed. Release artifacts/logs are under
 the projects tooling notes-editor-hotfix folder. Later history-only commits do
 not alter the immutable release source tag. GitHub Actions remains disabled.
+
+Workspace preview21 publication and anonymous final installer verification are
+complete: all11 release asset hashes/sizes checked; all43 inner packages verified;
+normal online setup downloaded573MiB and selected21 with Notes0.1.0-preview.4.
+https://github.com/oneworkspacestudio/one-workspace/releases/tag/v0.3.0-preview.21
+No existing running installation was upgraded. Its owner must use the fixed
+release through their normal upgrade process; a browser refresh alone cannot
+replace the previous server executable.
