@@ -14,7 +14,7 @@ func TestWorkspaceCallbackDefinesPublicPrefixBeforeValidation(t *testing.T) {
 		t.Fatal(err)
 	}
 	if c.PublicURL != "http://localhost:18890/notes" || c.BasePath != "/notes" || c.Mode != "managed" {
-		t.Fatalf("unexpected Workspace configuration: %+v", c)
+		t.Fatalf("unexpected Workspace configuration: public=%q base=%q mode=%q", c.PublicURL, c.BasePath, c.Mode)
 	}
 	c.PublicURL = "http://localhost.evil.example/notes"
 	c.RedirectURI = ""

@@ -136,3 +136,15 @@ passes exact public/data/listen settings and creates notes-settings.json outside
 the dedicated Notes data directory. The Workspace owner is an explicit Notes
 admin; unrelated users receive no additional access. Record actual suite startup
 verification after deployment in Workspace's organization-apps handoff.
+Preview2 publication completed: https://github.com/oneworkspacestudio/notes/releases/tag/v0.1.0-preview.2
+Tag source0fecd40; all seven hosted asset digests/sizes checked before publishing.
+Latest Actions run remains the earlier preview1 fcd186e run, confirming no new
+hosted build was used. Workspace19 downloaded the published2 portable ZIP and
+checked its aggregate digest plus inner EXE against the organization release.
+
+The actual authorized Workspace installation now starts Notes2 automatically:
+health200, private unauthenticated API401, managed mode, explicit Workspace-owner
+admin configuration and all app processes healthy. OIDC client provisioned and
+protected by the suite; config/data locations verified. This establishes live
+installation/startup, not a new browser sign-in or cross-user UI acceptance run.
+No manual issuer/client/secret entry was required. Existing mail/files preserved.
