@@ -45,3 +45,21 @@ portable process restart, attachments, CLI backup/restore, restored-session
 invalidation, /notes prefix and HTML import pass. TypeScript/production web build,
 Go tests and vet pass. Final Windows executable reports0.1.0-preview.4. No new
 real provider or clean-host run; historical acceptance fields remain labelled.
+
+## Notes publication receipt
+
+Published v0.1.0-preview.4 from4c6e422; all9 hosted asset sizes/digests matched
+local files before publishing. Public portable ZIP HEAD returned200. Source/tag,
+standalone EXE, portable package, launcher manifest, licenses, provenance and
+SHA256 sums are available at:
+https://github.com/oneworkspacestudio/notes/releases/tag/v0.1.0-preview.4
+
+MyNotes.exe SHA2560d7caf9d714b92e58b176123c94e553a0b2ac5b56de5d54ea2fb93f9dd0b53db
+Portable ZIP SHA256e7ec8c75801d5ba0a8cc9c459bcb523783f671451519fcd44953bc3b1a81584c
+The suite hotfix sourcec70d9e7 pins this exact ZIP. Full11-app/43-package bundle
+was locally rebuilt/verified, including the exact published Notes4 EXE; suite
+preview21 publication was being finalized. Its handoff records the final receipt.
+No active user process/store changed. Task-created test processes ended and the
+checked disposable NTFS test root was removed. Release artifacts/logs are under
+the projects tooling notes-editor-hotfix folder. Later history-only commits do
+not alter the immutable release source tag. GitHub Actions remains disabled.
