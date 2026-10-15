@@ -112,3 +112,27 @@ residual npm advisory, Drive picker/export adapter, direct Calendar APIs, JEX an
 official Joplin sync/E2EE. Calendar ICS, local resources/exports, and already-open
 offline drafts work. No fully cached offline PWA is claimed. User was asked for
 the live issuer/client ID; no answer was supplied during implementation.
+
+## Workspace installer integration follow-up
+
+During the user's all-organization-apps integration, preview1 became available.
+Source review found that LoadConfig validated the default standalone URL before
+main could apply WORKSPACE_OIDC_REDIRECT_URI, and managed public localhost URLs
+were rejected although Workspace's local origin uses localhost. Preview2 derives
+the callback public prefix before validation and permits managed loopback
+localhost (public HTTP remains rejected). The manifest supplies NOTES_PUBLIC_URL
+and records the exact organization source release. Managed OIDC is retained.
+
+Added regression test covers callback-only configuration, /notes prefix and
+rejection of localhost.evil.example HTTP. All Go tests and vet pass, existing
+frontend regenerated/built, Windows CGO-free executable and portable package
+built locally. No GitHub Actions used for preview2; source commits use [skip ci].
+Earlier preview1 CI evidence remains historical, not evidence for this build.
+Browser sign-in was not rerun because this task's browser policy service was
+unavailable. Existing frontend and OIDC verification code were unchanged.
+
+One Workspace19 packages this corrected release, provisions its own OIDC client,
+passes exact public/data/listen settings and creates notes-settings.json outside
+the dedicated Notes data directory. The Workspace owner is an explicit Notes
+admin; unrelated users receive no additional access. Record actual suite startup
+verification after deployment in Workspace's organization-apps handoff.

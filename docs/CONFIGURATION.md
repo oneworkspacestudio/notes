@@ -21,7 +21,7 @@ Environment overrides: `NOTES_DATA_DIR`, `NOTES_PUBLIC_URL`, `NOTES_LISTEN`,
 `NOTES_OIDC_ISSUER`, `NOTES_OIDC_CLIENT_ID`, `NOTES_OIDC_CLIENT_SECRET`.
 One Workspace supplies `WORKSPACE_OIDC_ISSUER`, `WORKSPACE_OIDC_CLIENT_ID`,
 `WORKSPACE_OIDC_CLIENT_SECRET`, `WORKSPACE_OIDC_REDIRECT_URI`; Notes accepts them
-directly. The registered redirect determines the public URL when launched by the
+directly. The registered redirect determines the public URL before configuration validation when launched by the
 workspace. Explicit NOTES OIDC variables take precedence. Keep secrets out of
 config JSON, manifest fields, browser code and command-line arguments.
 
@@ -33,7 +33,7 @@ choose the intended normal-user organization when registering the client.
 The integration fixture validates this against the real MyAccounts executable.
 See [MyAccounts integration documentation](https://github.com/oneworkspacestudio/myaccounts/blob/main/docs/integrations.md).
 
-Managed mode requires HTTPS outside literal loopback development. Issuer HTTP is
+Managed mode requires HTTPS outside loopback development (`localhost` or a loopback IP). Issuer HTTP is
 allowed only for loopback or `localhost` fixtures. TLS verification is never
 disabled. Existing Notes sessions remain valid until their original expiry while
 MyAccounts is down. New sign-ins fail. Notes logout invalidates its own server

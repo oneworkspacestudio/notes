@@ -11,7 +11,7 @@ import (
 	"strings"
 )
 
-const Version = "0.1.0-preview.1"
+const Version = "0.1.0-preview.2"
 
 type Config struct {
 	Listen        string   `json:"listen"`
@@ -48,6 +48,11 @@ func LoadConfig(path string) (Config, error) {
 	if !filepath.IsAbs(c.DataDir) {
 		c.DataDir = filepath.Join(filepath.Dir(path), c.DataDir)
 	}
+	// Workspace supplies its exact callback rather than a standalone config file.
+	// Establish the external origin before validating the redirect relationship.
+	if c.RedirectURI != "" && os.Getenv("NOTES_PUBLIC_URL") == "" {
+		c.PublicURL = strings.TrimSuffix(c.RedirectURI, "/auth/callback")
+	}
 	c.ConfigPath = path
 	return c, c.Validate()
 }
@@ -78,7 +83,7 @@ func (c *Config) Validate() error {
 		return errors.New("mode must be managed or local")
 	}
 	if u.Scheme == "http" && c.Mode == "managed" {
-		if ip := net.ParseIP(u.Hostname()); ip == nil || !ip.IsLoopback() {
+		if ip := net.ParseIP(u.Hostname()); u.Hostname() != "localhost" && (ip == nil || !ip.IsLoopback()) {
 			return errors.New("managed public URLs require HTTPS (HTTP loopback is allowed for development)")
 		}
 	}
