@@ -1,4 +1,8 @@
-# <img src="web/public/notes.svg" alt="" width="42" height="42"> Notes
+<p align="center">
+  <img src="web/public/notes.svg" alt="Notes logo" width="112" height="112">
+</p>
+
+<h1 align="center">Notes</h1>
 
 Your notes, notebooks and ideas, together in One Workspace. A portable Windows
 application with a calm three-column interface, SQLite storage and MyAccounts
