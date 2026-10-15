@@ -1,6 +1,6 @@
 {
   "app": "notes",
-  "version": "0.1.0-preview.1",
+  "version": "0.1.0-preview.4",
   "stable_ready": false,
   "preview_ready": true,
   "core_application": "implemented",
@@ -22,5 +22,12 @@
   "calendar": "ics_export_only",
   "offline": "open_editor_drafts_and_reconnection",
   "npm_residual_moderate_advisories": 1,
-  "npm_parent_chains_reported": 2
+  "npm_parent_chains_reported": 2,
+  "historical_full_acceptance_version": "0.1.0-preview.1",
+  "editor_lifecycle_regression": {
+    "published_preview_3": "reproduced_commands_null_on_note_switch",
+    "preview_4": "passed_note_switches_rich_markdown_formatting_reload_and_undo_isolation",
+    "data_migration": "none",
+    "public_live_installation_modified": false
+  }
 }

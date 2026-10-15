@@ -78,13 +78,17 @@ export function EditorView() {
           },
         },
       },
-      onUpdate: ({ editor }) =>
-        ctx.field("body", httpToInternal(editor.getMarkdown())),
+      onUpdate: ({ editor }) => {
+        if (!editor.isDestroyed)
+          ctx.field("body", httpToInternal(editor.getMarkdown()));
+      },
     },
     [note.id],
   );
   useEffect(() => {
-    if (!editor) return;
+    // useEditor can return the previous (now destroyed) instance for the
+    // commit in which note.id changes. Its command manager is already null.
+    if (!editor || editor.isDestroyed) return;
     if (editor.isEditable === readonly) editor.setEditable(!readonly, false);
     if (httpToInternal(editor.getMarkdown()) !== note.body)
       editor.commands.setContent(internalToHTTP(note.body), {
@@ -93,24 +97,33 @@ export function EditorView() {
       });
   }, [note.id, note.body, readonly, editor]);
   useEffect(() => {
-    if (!editor) return;
+    // useEditor can return the previous (now destroyed) instance for the
+    // commit in which note.id changes. Its command manager is already null.
+    if (!editor || editor.isDestroyed) return;
+    const live = (command: () => unknown) => () => {
+      // A toolbar callback may outlive its editor until effect cleanup runs.
+      if (!editor.isDestroyed) command();
+    };
     ctx.registerEditor({
-      heading: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
-      bold: () => editor.chain().focus().toggleBold().run(),
-      italic: () => editor.chain().focus().toggleItalic().run(),
-      strike: () => editor.chain().focus().toggleStrike().run(),
-      list: () => editor.chain().focus().toggleBulletList().run(),
-      task: () => editor.chain().focus().toggleTaskList().run(),
-      quote: () => editor.chain().focus().toggleBlockquote().run(),
-      code: () => editor.chain().focus().toggleCodeBlock().run(),
-      table: () =>
+      heading: live(() =>
+        editor.chain().focus().toggleHeading({ level: 2 }).run(),
+      ),
+      bold: live(() => editor.chain().focus().toggleBold().run()),
+      italic: live(() => editor.chain().focus().toggleItalic().run()),
+      strike: live(() => editor.chain().focus().toggleStrike().run()),
+      list: live(() => editor.chain().focus().toggleBulletList().run()),
+      task: live(() => editor.chain().focus().toggleTaskList().run()),
+      quote: live(() => editor.chain().focus().toggleBlockquote().run()),
+      code: live(() => editor.chain().focus().toggleCodeBlock().run()),
+      table: live(() =>
         editor
           .chain()
           .focus()
           .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
           .run(),
-      undo: () => editor.chain().focus().undo().run(),
-      redo: () => editor.chain().focus().redo().run(),
+      ),
+      undo: live(() => editor.chain().focus().undo().run()),
+      redo: live(() => editor.chain().focus().redo().run()),
     });
     return () => ctx.registerEditor({});
   }, [editor]);

@@ -11,7 +11,7 @@ test.beforeAll(async ({ browser }) => {
   await mkdir(parent, { recursive: true });
   const dir = await mkdtemp(path.join(parent, "browser-"));
   server = spawn(
-    path.resolve("../dist/MyNotes.exe"),
+    path.resolve(process.env.NOTES_TEST_EXE || "../dist/MyNotes.exe"),
     ["--local", "--data", dir, "--port", "18895"],
     { windowsHide: true, stdio: ["pipe", "pipe", "pipe"] },
   );
@@ -356,4 +356,82 @@ test("desktop, mobile and dark mode visual checks", async ({
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
   ).toBeTruthy();
+});
+
+test("rich editor survives note switches and preserves each note's content", async ({
+  page,
+  context,
+}) => {
+  const errors: string[] = [];
+  page.on("pageerror", (error) => {
+    errors.push(error.message);
+    console.error("Browser error:", error.message);
+  });
+  const first = await api(context, "/api/notes", "POST", {
+    title: "Lifecycle alpha",
+    body: "Alpha original",
+    tags: [],
+  });
+  const second = await api(context, "/api/notes", "POST", {
+    title: "Lifecycle beta",
+    body: "Beta original",
+    tags: [],
+  });
+  await page.reload();
+  await page
+    .locator(".note-card")
+    .filter({ hasText: "Lifecycle alpha" })
+    .getByRole("button", { name: /Lifecycle alpha/ })
+    .click();
+  await page.getByRole("button", { name: "Rich text", exact: true }).click();
+  const content = page.getByLabel("Note content", { exact: true });
+  const open = async (title: string, body: string) => {
+    await page
+      .locator(".note-card")
+      .filter({ hasText: title })
+      .getByRole("button", { name: new RegExp(title) })
+      .click();
+    await expect(page.getByPlaceholder("Untitled note")).toHaveValue(title);
+    await expect(content).toContainText(body);
+    expect(errors).toEqual([]);
+  };
+  await open("Lifecycle alpha", "Alpha original");
+  await content.fill("Alpha edited in rich text");
+  await expect(page.locator(".editor-status")).toContainText(
+    "All changes saved",
+  );
+  for (let i = 0; i < 3; i++) {
+    await open("Lifecycle beta", "Beta original");
+    await open("Lifecycle alpha", "Alpha edited in rich text");
+  }
+  await open("Lifecycle beta", "Beta original");
+  await page.getByRole("button", { name: "Undo", exact: true }).click();
+  await expect(content).toContainText("Beta original");
+  await page.getByRole("button", { name: "Markdown", exact: true }).click();
+  await page
+    .getByRole("textbox", { name: "Markdown content" })
+    .fill("Beta edited in Markdown");
+  await expect(page.locator(".editor-status")).toContainText(
+    "All changes saved",
+  );
+  await page.getByRole("button", { name: "Rich text", exact: true }).click();
+  await expect(content).toContainText("Beta edited in Markdown");
+  await content.press("ControlOrMeta+A");
+  await page.getByRole("button", { name: "Bold", exact: true }).click();
+  await expect(content.locator("strong")).toContainText(
+    "Beta edited in Markdown",
+  );
+  await expect(page.locator(".editor-status")).toContainText(
+    "All changes saved",
+  );
+  await page.reload();
+  await open("Lifecycle alpha", "Alpha edited in rich text");
+  await open("Lifecycle beta", "Beta edited in Markdown");
+  expect((await api(context, `/api/notes/${first.id}`)).body.trim()).toBe(
+    "Alpha edited in rich text",
+  );
+  expect((await api(context, `/api/notes/${second.id}`)).body).toContain(
+    "**Beta edited in Markdown**",
+  );
+  expect(errors).toEqual([]);
 });
