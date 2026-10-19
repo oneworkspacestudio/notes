@@ -13,7 +13,7 @@ try {
  if($LASTEXITCODE){throw 'Go vet failed'}
  New-Item -ItemType Directory -Path dist -Force | Out-Null
  $env:CGO_ENABLED='0';$env:GOOS='windows';$env:GOARCH='amd64'
- & $Go build -trimpath -ldflags '-s -w' -o dist/MyNotes.exe ./cmd/notes
+ & $Go build -buildvcs=false -trimpath -ldflags '-s -w' -o dist/MyNotes.exe ./cmd/notes
  if($LASTEXITCODE){throw 'Windows build failed'}
  if($BrowserTests){npm --prefix web run test:e2e;if($LASTEXITCODE){throw 'Browser tests failed'}}
  node (Join-Path $PSScriptRoot 'licenses.mjs') $Go

@@ -138,3 +138,7 @@ requires an NTFS temporary directory and bootstraps two synthetic accounts.
 Licensed **AGPL-3.0-or-later**. [Source](https://github.com/oneworkspacestudio/notes)
 and build inputs are available under each release tag. See [NOTICE](NOTICE).
 Joplin is a trademark of JOPLIN SAS; this project is independent.
+
+## Federated Workspace Search
+
+Version 0.1.0-preview.5 adds an authenticated current-account identity endpoint for My Search. Search uses the existing Notes API and note permissions; it does not read the Notes database or use an administrator crawler. See the security and acceptance documents. The existing Joplin renderer dependency has a moderate sprintf-js precision denial-of-service advisory; this preview does not claim a clean dependency audit.

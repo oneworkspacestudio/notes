@@ -100,6 +100,10 @@ func (a *App) Handler() http.Handler {
 		id := who(r)
 		respond(w, 200, map[string]any{"user": id.User, "csrf": id.CSRF, "version": Version, "mode": a.Config.Mode, "upload_mb": a.Config.UploadMB})
 	}))
+	// Federation identifies the current session without exposing account lists.
+	m.HandleFunc("GET /api/identity", a.Require(func(w http.ResponseWriter, r *http.Request) {
+		respond(w, 200, map[string]string{"issuer": a.Config.Issuer, "subject": who(r).User.Subject})
+	}))
 	m.HandleFunc("GET /api/state", a.Require(a.State))
 	m.HandleFunc("GET /api/notes", a.Require(a.ListNotes))
 	m.HandleFunc("POST /api/notes", a.Require(a.CreateNote))
