@@ -11,7 +11,7 @@ export function Notes({ data, onAction }: { data: any; onAction: (name: string) 
             <Row region="brand">
               <Button intent="menu" variant="icon" title="Toggle navigation"><Icon name="Menu" /></Button>
               <Image src="./notes.svg" alt="Notes" width={32} height={32} />
-              <Heading level={1}>notes</Heading>
+              <Heading level={1}>Notes</Heading>
             </Row>
             <Input field="search" variant="search" placeholder="Search your notes" value={data.app.search} />
             <Row region="account">

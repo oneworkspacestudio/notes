@@ -5,7 +5,7 @@ Page Notes
         Button intent=menu variant=icon title="Toggle navigation"
           Icon name=Menu
         Image src="./notes.svg" alt="Notes" width=32 height=32
-        Heading level=1 "notes"
+        Heading level=1 "Notes"
       Input field=search variant=search placeholder="Search your notes" value=$app.search
       Row region=account
         Badge tone=$app.saveTone $app.saveStatus

@@ -51,7 +51,7 @@ export function useNotes() {
     [mobileEditor, setMobileEditor] = useState(false),
     [menu, setMenu] = useState(false),
     [theme, setTheme] = useState(
-      localStorage.getItem("notes-theme") || "light",
+      localStorage.getItem("workspace-theme") || localStorage.getItem("notes-theme") || "light",
     );
   const [dialog, setDialog] = useState<any>(null),
     [error, setError] = useState(""),
@@ -411,6 +411,7 @@ export function useNotes() {
         setFullscreen(!fullscreen);
         break;
       case "theme":
+        localStorage.setItem("workspace-theme", theme === "light" ? "dark" : "light");
         setTheme(theme === "light" ? "dark" : "light");
         break;
       case "navigate":
@@ -885,6 +886,13 @@ export function useNotes() {
     document.documentElement.dataset.theme = theme;
     localStorage.setItem("notes-theme", theme);
   }, [theme]);
+  useEffect(() => {
+    const syncTheme = (event: StorageEvent) => {
+      if (event.key === "workspace-theme") setTheme(event.newValue === "dark" ? "dark" : "light");
+    };
+    window.addEventListener("storage", syncTheme);
+    return () => window.removeEventListener("storage", syncTheme);
+  }, []);
   useEffect(() => {
     const expired = () => {
       setUser(null);
